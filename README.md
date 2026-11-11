@@ -120,5 +120,5 @@ llm-project-fannie/
 - [x] Unit tests for factual and code-generation behaviour
 - [x] Real model outputs documented in `RESULTS.md`
 - [x] Unit tests pass locally with `unittest` and `pytest`
-- [ ] Three MP4 videos posted and linked above
-- [ ] Public GitHub repository synchronized with the final submission
+- [x] Three MP4 videos posted and linked above
+- [x] Public GitHub repository synchronized with the final submission
