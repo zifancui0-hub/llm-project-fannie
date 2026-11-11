@@ -68,7 +68,19 @@ python -m unittest discover tests -v
 pytest -q
 ```
 
-The test suite loads the model once, checks factual recall, Python factorial generation, simple arithmetic reasoning, and blank-input validation. Model assertions use a fixed seed (`TEST_SEED`, default `6`). The first run downloads the model, so it can take substantially longer than later runs.
+The test suite loads the model once, checks factual recall, Python factorial generation, explicitly worded arithmetic reasoning, and blank-input validation. Model assertions use a fixed seed (`TEST_SEED`, default `6`). The first run downloads the model, so it can take substantially longer than later runs.
+
+On the recorded Apple M5 environment, both runners passed all four tests. See [RESULTS.md](RESULTS.md) for the observed test output.
+
+## Qualitative evaluation
+
+See [RESULTS.md](RESULTS.md) for verbatim outputs and analysis of factual accuracy, creativity, reasoning, bias and safety, and a hallucination failure case. Reproduce the six recorded prompts (five qualitative prompts plus factorial generation) with:
+
+```bash
+python -m scripts.evaluate --seeds 6 --output outputs/qualitative-results.json
+```
+
+The JSON contains full responses and runtime metadata. The generated `outputs/` directory is excluded from Git.
 
 ## Project structure
 
@@ -80,6 +92,9 @@ llm-project-fannie/
 ├── tests/
 │   ├── __init__.py
 │   └── test_model.py
+├── scripts/
+│   ├── __init__.py
+│   └── evaluate.py
 ├── videos/
 │   └── README.md
 ├── demo.py
@@ -88,10 +103,6 @@ llm-project-fannie/
 ├── README.md
 └── .gitignore
 ```
-
-## Qualitative evaluation
-
-See [RESULTS.md](RESULTS.md) for verbatim outputs and analysis of factual accuracy, creativity, reasoning, bias and safety, and a hallucination failure case.
 
 ## Videos
 
@@ -107,7 +118,7 @@ See [RESULTS.md](RESULTS.md) for verbatim outputs and analysis of factual accura
 - [x] Open-weight instruct model with hardware-aware quantization/loading
 - [x] Interactive `demo.py`
 - [x] Unit tests for factual and code-generation behaviour
-- [ ] Real model outputs documented in `RESULTS.md`
-- [ ] Unit tests pass locally
+- [x] Real model outputs documented in `RESULTS.md`
+- [x] Unit tests pass locally with `unittest` and `pytest`
 - [ ] Three MP4 videos posted and linked above
-- [ ] Public GitHub repository synchronized
+- [ ] Public GitHub repository synchronized with the final submission

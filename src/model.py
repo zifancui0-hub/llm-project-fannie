@@ -28,7 +28,7 @@ def _pick_device() -> str:
 def _cuda_load_options() -> dict:
     """Use NF4 when bitsandbytes is available, with a portable FP16 fallback."""
     if importlib.util.find_spec("bitsandbytes") is None:
-        return {"device_map": "auto", "torch_dtype": torch.float16}
+        return {"device_map": "auto", "dtype": torch.float16}
 
     quantization = BitsAndBytesConfig(
         load_in_4bit=True,
@@ -39,7 +39,7 @@ def _cuda_load_options() -> dict:
     return {
         "device_map": "auto",
         "quantization_config": quantization,
-        "torch_dtype": torch.float16,
+        "dtype": torch.float16,
     }
 
 
@@ -63,7 +63,7 @@ def load_model(model_id: Optional[str] = None) -> Tuple[object, object]:
     elif device == "mps":
         model = AutoModelForCausalLM.from_pretrained(
             selected_model,
-            torch_dtype=torch.float16,
+            dtype=torch.float16,
             low_cpu_mem_usage=True,
         ).to(device)
     else:

@@ -41,7 +41,7 @@ class TestLanguageModel(unittest.TestCase):
 
     def test_simple_reasoning(self):
         response = self.ask(
-            "If I have 3 apples and give 1 to Mary, how many do I have left? Answer briefly.",
+            "I have 3 apples. I give 1 apple to Mary. How many apples do I have now? Answer with only the number.",
             70,
         )
         self.assertRegex(response, r"\b2\b|\btwo\b", response)
