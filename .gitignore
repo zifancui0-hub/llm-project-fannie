@@ -1,0 +1,21 @@
+# Python environments and caches
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# OS and editor files
+.DS_Store
+.vscode/
+
+# Downloaded model weights and local outputs
+*.safetensors
+*.bin
+*.gguf
+outputs/
+
+# Screen-recording intermediates (final MP4 files are tracked)
+videos/raw/
+videos/audio/
+videos/work/
