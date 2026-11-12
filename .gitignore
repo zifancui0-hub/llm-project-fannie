@@ -19,3 +19,6 @@ outputs/
 videos/raw/
 videos/audio/
 videos/work/
+
+# Local submission archive
+*.zip
