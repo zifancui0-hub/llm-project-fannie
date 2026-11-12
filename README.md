@@ -1,6 +1,6 @@
-# LLM Project — Fannie (p2319777)
+# LingoBridge — LLM Project by Fannie (p2319777)
 
-Assignment 1B: loading, interacting with, and evaluating an open-weight instruction-tuned language model.
+Assignment 1B: loading, interacting with, and evaluating an open-weight instruction-tuned language model — applied as **LingoBridge**, a themed local AI translation app.
 
 The project uses **Qwen/Qwen2.5-1.5B-Instruct** by default. It is openly downloadable and does not require accepting a gated model licence. The implementation selects CUDA, Apple MPS, or CPU automatically and supports reproducible generation for testing.
 
@@ -40,7 +40,23 @@ The older `huggingface-cli login` command is deprecated in current Hugging Face 
 
 Set `LLM_MODEL_ID` to override the default model globally, or pass `--model` for one run.
 
-## Demo
+## Themed application: LingoBridge translator
+
+LingoBridge is the themed application for this assignment: a **local AI translator** that runs the same open-weight model behind a translator persona and a structured task prompt. Source and target language, plus tone (Neutral / Formal / Casual), are selected in the UI, so no prompt engineering is needed from the user. Everything runs offline on your own hardware.
+
+```bash
+python app.py
+```
+
+Then open the printed local URL (default http://127.0.0.1:7860). Paste text, choose the language pair and tone, and click **Translate**. The ⇄ Swap button flips English ↔ 中文 pairs. To preview the interface without downloading the model or installing torch:
+
+```bash
+python app.py --mock
+```
+
+The translation logic lives in `src/assistant.py` (`TranslatorAssistant`); `app.py` only builds the Gradio interface around it.
+
+## Demo (command line)
 
 Interactive mode:
 
@@ -70,6 +86,12 @@ pytest -q
 
 The test suite loads the model once, checks factual recall, Python factorial generation, explicitly worded arithmetic reasoning, and blank-input validation. Model assertions use a fixed seed (`TEST_SEED`, default `6`). The first run downloads the model, so it can take substantially longer than later runs.
 
+`tests/test_assistant.py` covers the LingoBridge translator logic (prompt assembly, language/tone validation) without loading the model, so it runs in about a second on any machine:
+
+```bash
+python -m unittest tests.test_assistant -v
+```
+
 On the recorded Apple M5 environment, both runners passed all four tests. See [RESULTS.md](RESULTS.md) for the observed test output.
 
 ## Qualitative evaluation
@@ -86,11 +108,14 @@ The JSON contains full responses and runtime metadata. The generated `outputs/` 
 
 ```text
 llm-project-fannie/
+├── app.py               # LingoBridge themed translator web app (Gradio)
 ├── src/
 │   ├── __init__.py
+│   ├── assistant.py     # TranslatorAssistant persona + task prompts
 │   └── model.py
 ├── tests/
 │   ├── __init__.py
+│   ├── test_assistant.py  # Fast translator-logic tests (no model needed)
 │   └── test_model.py
 ├── scripts/
 │   ├── __init__.py
@@ -108,16 +133,18 @@ llm-project-fannie/
 
 | Required demonstration | File |
 | --- | --- |
-| Installation | [p2319777_LLM-Project_1-installation.mp4](videos/p2319777_LLM-Project_1-installation.mp4) |
-| Implementation and demo | [p2319777_LLM-Project_2-implementation.mp4](videos/p2319777_LLM-Project_2-implementation.mp4) |
-| Testing and results | [p2319777_LLM-Project_3-testing.mp4](videos/p2319777_LLM-Project_3-testing.mp4) |
+| Installation | [p2319777_LingoBridge_1-installation.mp4](videos/p2319777_LingoBridge_1-installation.mp4) |
+| Implementation and demo | [p2319777_LingoBridge_2-implementation.mp4](videos/p2319777_LingoBridge_2-implementation.mp4) |
+| Testing and results | [p2319777_LingoBridge_3-testing.mp4](videos/p2319777_LingoBridge_3-testing.mp4) |
 
 ## Submission checklist
 
 - [x] Original `load_model()` and `get_response()` implementation
+- [x] Themed application: LingoBridge local translator (`app.py` + `src/assistant.py`)
 - [x] Open-weight instruct model with hardware-aware quantization/loading
 - [x] Interactive `demo.py`
 - [x] Unit tests for factual and code-generation behaviour
+- [x] Fast translator-logic tests (`tests/test_assistant.py`)
 - [x] Real model outputs documented in `RESULTS.md`
 - [x] Unit tests pass locally with `unittest` and `pytest`
 - [x] Three MP4 videos posted and linked above
